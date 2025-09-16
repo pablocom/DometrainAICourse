@@ -1,5 +1,4 @@
 ﻿using DometrainAICourse;
-using DometrainAiCourse.GettingStarted;
 using DometrainAiCourse.MicrosoftAiExtensions;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
