@@ -1,23 +1,23 @@
 ﻿using DometrainAICourse;
+using DometrainAiCourse.GettingStarted;
 using DometrainAiCourse.MicrosoftAiExtensions;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 
-var services = new ServiceCollection();
-var configuration = new ConfigurationManager();
+var builder = Host.CreateApplicationBuilder();
 
-configuration.AddUserSecrets<IAssemblyMarker>();
+builder.Configuration.AddUserSecrets<IAssemblyMarker>();
 
-services.AddLogging(x => x.AddConsole().SetMinimumLevel(LogLevel.Information))
-    .AddSingleton(LoggerFactory.Create(x => x.AddConsole().SetMinimumLevel(LogLevel.Information)))
-    .AddSingleton<IConfiguration>(configuration)
-    .AddSingleton<IChatClient, CustomChatClient>()
-    .AddSingleton<AiClientConversation>();
+builder.Services.AddValidatedOptions<AiOptions>(AiOptions.SectionName);
+builder.Services.AddValidatedOptions<WeatherApiOptions>(WeatherApiOptions.SectionName);
 
-var serviceProvider = services.BuildServiceProvider();
+builder.Services.AddSingleton<IChatClient, CustomChatClient>();
+builder.Services.AddSingleton<AiClientConversation>();
+builder.Services.AddHostedService<AiClientConversationHostedService>();
+builder.Services.AddHttpClient<WeatherService>();
 
-var conversation = serviceProvider.GetRequiredService<AiClientConversation>();
+using var app = builder.Build();
 
-await conversation.ExecuteConversationLoop();
+await app.RunAsync();

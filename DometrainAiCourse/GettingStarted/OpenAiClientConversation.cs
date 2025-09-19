@@ -41,13 +41,14 @@ public static class OpenAiClientConversation
             .AddUserSecrets<IAssemblyMarker>()
             .Build();
 
-        var options = new AiOptions();
-        configuration.Bind(AiOptions.SectionName, options);
+        var options = configuration.GetValue<AiOptions>(AiOptions.SectionName);
+        if (options is null)
+            throw new InvalidOperationException("Cannot read AI provider options");
 
         return new ChatClient(
-            model: Constants.AiModel,
+            model: options.Model,
             credential: new ApiKeyCredential(options.ApiKey),
-            options: new OpenAIClientOptions { Endpoint = Constants.AiProviderBaseAddress }
+            options: new OpenAIClientOptions { Endpoint = options.BaseAddress }
         );
     }
 

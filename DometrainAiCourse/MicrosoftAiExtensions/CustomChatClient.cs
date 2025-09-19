@@ -6,11 +6,14 @@ using System.Text.Json.Serialization;
 using DometrainAiCourse.GettingStarted;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace DometrainAiCourse.MicrosoftAiExtensions;
 
 public class CustomChatClient : IChatClient
 {
+    private readonly IOptions<AiOptions> _aiOptions;
+
     private static readonly JsonSerializerOptions JsonSerializerOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
@@ -20,14 +23,15 @@ public class CustomChatClient : IChatClient
     
     private readonly HttpClient _httpClient;
     
-    public CustomChatClient(IConfiguration configuration)
+    public CustomChatClient(IOptions<AiOptions> aiOptions)
     {
+        _aiOptions = aiOptions;
         _httpClient = new()
         {
-            BaseAddress = Constants.AiProviderBaseAddress,
+            BaseAddress = _aiOptions.Value.BaseAddress,
             DefaultRequestHeaders =
             {
-                Authorization = new AuthenticationHeaderValue("Bearer", configuration.GetValue<string>("AiOptions:ApiKey")),
+                Authorization = new AuthenticationHeaderValue("Bearer", _aiOptions.Value.ApiKey),
                 Accept = { new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json) }
             }
         };
@@ -49,7 +53,7 @@ public class CustomChatClient : IChatClient
 
     private async Task<CustomChatMessage> CompleteChat(IEnumerable<CustomChatMessage> messages, CancellationToken cancellationToken = default)
     {
-        var request = new CustomChatRequest(Constants.AiModel, messages);
+        var request = new CustomChatRequest(_aiOptions.Value.Model, messages);
         var response = await _httpClient.PostAsJsonAsync("chat/completions", request, JsonSerializerOptions, cancellationToken);
 
         response.EnsureSuccessStatusCode();

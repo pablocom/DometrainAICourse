@@ -13,8 +13,10 @@ public class AiClientConversation
     
     public async Task ExecuteConversationLoop(CancellationToken cancellationToken = default)
     {
-        List<ChatMessage> messages =
-            [new(ChatRole.Assistant, "Hey broder there's an endless road to rediscover")];
+        var messages = new List<ChatMessage>
+        {
+            new(ChatRole.Assistant, "Glad to see you sir Stark, how can I help you?")
+        };
 
         Console.WriteLine(messages.First().Text);
 
