@@ -1,8 +1,10 @@
 using System.ClientModel;
 using DometrainAICourse;
+using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
 using OpenAI;
 using OpenAI.Chat;
+using ChatMessage = OpenAI.Chat.ChatMessage;
 
 namespace DometrainAiCourse.GettingStarted;
 
