@@ -14,16 +14,16 @@ public sealed class ToolDefinitionsProvider
     
     public IEnumerable<AITool> GetToolDefinitions()
     {
-        var getWeatherFunction = typeof(WeatherService)
+        var getWeatherMethodInfo = typeof(WeatherService)
             .GetMethod(nameof(WeatherService.GetWeather), [typeof(string), typeof(CancellationToken)])!;
 
         yield return AIFunctionFactory.Create(
-            getWeatherFunction, 
+            getWeatherMethodInfo, 
             _weatherService,
             new AIFunctionFactoryOptions
             {
                 Name = "get_weather",
-                Description = "Get the current weather of a specified city"
+                Description = "Gets the current weather of a city"
             }
         );
     }    
