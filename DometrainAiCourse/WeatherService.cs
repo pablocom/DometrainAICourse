@@ -15,7 +15,7 @@ public sealed class WeatherService
         _options = options;
     }
 
-    public async Task<WeatherResponse> GetWeather(string city, CancellationToken cancellationToken)
+    public async Task<string[]> GetWeather(string city, CancellationToken cancellationToken = default)
     {
         var url = $"https://api.weatherapi.com/v1/current.json?key={_options.Value.Key}&q={city}&aqi=no";
         var response = await _httpClient.GetAsync(url, cancellationToken);
@@ -30,7 +30,8 @@ public sealed class WeatherService
         var temperatureInCelsius = currentElement.GetProperty("temp_c").GetDecimal();
         var humidity = currentElement.GetProperty("humidity").GetInt32();
 
-        return new(temperatureInCelsius, humidity, description);
+        var weatherResponse = new WeatherResponse(temperatureInCelsius, humidity, description);
+        return [weatherResponse.ToString()];
     }
 }
 

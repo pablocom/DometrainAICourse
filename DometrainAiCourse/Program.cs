@@ -15,20 +15,22 @@ builder.Configuration.AddUserSecrets<IAssemblyMarker>();
 
 builder.Services.AddValidatedOptions<AiOptions>(AiOptions.SectionName);
 builder.Services.AddValidatedOptions<WeatherApiOptions>(WeatherApiOptions.SectionName);
-
-builder.Services.AddChatClient(sp =>
-{
-    var options = sp.GetRequiredService<IOptions<AiOptions>>();
-    return new OpenAI.Chat.ChatClient(options.Value.Model, new ApiKeyCredential(options.Value.ApiKey), new OpenAIClientOptions
-    {
-        Endpoint = options.Value.BaseAddress
-    }).AsIChatClient();
-});
-
 builder.Services.AddSingleton<AiClientConversation>();
 builder.Services.AddSingleton<ToolDefinitionsProvider>();
 builder.Services.AddHostedService<AiClientConversationHostedService>();
 builder.Services.AddHttpClient<WeatherService>();
+
+builder.Services.AddChatClient(sp =>
+    {
+        var options = sp.GetRequiredService<IOptions<AiOptions>>();
+        var client = new OpenAI.Chat.ChatClient(
+            options.Value.Model, 
+            new ApiKeyCredential(options.Value.ApiKey),
+            new OpenAIClientOptions { Endpoint = options.Value.BaseAddress }
+        );
+        return client.AsIChatClient();
+    })
+    .UseFunctionInvocation();
 
 using var app = builder.Build();
 

@@ -24,7 +24,8 @@ public class AiClientConversation
             ModelId = _aiOptions.Value.Model,
             Temperature = 1,
             MaxOutputTokens = 5000,
-            Tools = _toolDefinitionsProvider.GetToolDefinitions().ToList()
+            Tools = [.._toolDefinitionsProvider.GetToolDefinitions()],
+            ToolMode = ChatToolMode.Auto
         };
         
         var messages = new List<ChatMessage>
