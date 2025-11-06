@@ -15,7 +15,7 @@ builder.Services.AddValidatedOptions<AIOptions>(AIOptions.SectionName);
 builder.Services.AddValidatedOptions<WeatherApiOptions>(WeatherApiOptions.SectionName);
 builder.Services.AddSingleton<AIConversation>();
 builder.Services.AddSingleton<ToolDefinitionsProvider>();
-builder.Services.AddHostedService<AIClientConversationHostedService>();
+builder.Services.AddHostedService<AIConversationHostedService>();
 builder.Services.AddHttpClient<WeatherService>().RemoveAllLoggers();
 
 builder.Services.AddChatClient(sp =>

@@ -2,7 +2,7 @@
 
 namespace DometrainAICourse;
 
-public sealed class AIClientConversationHostedService(AIConversation conversation, IHost host) : BackgroundService
+public sealed class AIConversationHostedService(AIConversation conversation, IHost host) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
