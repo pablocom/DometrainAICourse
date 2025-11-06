@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DometrainAiCourse", "DometrainAiCourse\DometrainAiCourse.csproj", "{AB6014AB-6C6D-41F9-BD9A-A50E80EFA320}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DometrainAICourse", "DometrainAICourse\DometrainAICourse.csproj", "{AB6014AB-6C6D-41F9-BD9A-A50E80EFA320}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

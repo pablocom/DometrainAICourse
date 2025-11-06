@@ -1,37 +1,36 @@
-using DometrainAiCourse.GettingStarted;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Options;
 
-namespace DometrainAiCourse.MicrosoftAiExtensions;
+namespace DometrainAICourse;
 
-public class AiClientConversation
+public class AIConversation
 {
     private readonly IChatClient _chatClient;
-    private readonly IOptions<AiOptions> _aiOptions;
+    private readonly IOptions<AIOptions> _aiOptions;
     private readonly ToolDefinitionsProvider _toolDefinitionsProvider;
 
-    public AiClientConversation(IChatClient chatClient, IOptions<AiOptions> aiOptions, ToolDefinitionsProvider toolDefinitionsProvider)
+    public AIConversation(IChatClient chatClient, IOptions<AIOptions> aiOptions, ToolDefinitionsProvider toolDefinitionsProvider)
     {
         _chatClient = chatClient;
         _aiOptions = aiOptions;
         _toolDefinitionsProvider = toolDefinitionsProvider;
     }
     
-    public async Task ExecuteConversationLoop(CancellationToken cancellationToken = default)
+    public async Task ConversationLoop(CancellationToken cancellationToken = default)
     {
         var chatOptions = new ChatOptions
         {
             ModelId = _aiOptions.Value.Model,
             Temperature = 1,
             MaxOutputTokens = 5000,
-            Tools = [.._toolDefinitionsProvider.GetToolDefinitions()],
+            Tools = _toolDefinitionsProvider.GetToolDefinitions().ToList(),
             ToolMode = ChatToolMode.Auto
         };
         
         var messages = new List<ChatMessage>
         {
-            new(ChatRole.System, "You are a helpful AI assistant, that uses defined tools when it's appropriate"),
-            new(ChatRole.Assistant, "Glad to see you sir Stark, how can I help you?")
+            new(ChatRole.System, "You are a helpful AI assistant that uses defined tools when it's appropriate"),
+            new(ChatRole.Assistant, "Howdy, how can I help you?")
         };
 
         Console.WriteLine(messages.Last().Text);

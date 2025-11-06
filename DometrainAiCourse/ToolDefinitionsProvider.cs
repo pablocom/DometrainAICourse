@@ -1,7 +1,6 @@
-using DometrainAICourse;
 using Microsoft.Extensions.AI;
 
-namespace DometrainAiCourse.MicrosoftAiExtensions;
+namespace DometrainAICourse;
 
 public sealed class ToolDefinitionsProvider
 {

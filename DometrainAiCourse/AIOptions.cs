@@ -1,13 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DometrainAiCourse.GettingStarted;
+namespace DometrainAICourse;
 
-public sealed class AiOptions
+public sealed class AIOptions
 {
     public const string SectionName = "AI";
 
     [Required]
-    public required Uri BaseAddress { get; init; }
+    public required Uri ProviderEndpoint { get; init; }
     
     [Required]
     public required string Model { get; init; }
