@@ -4,7 +4,7 @@ namespace DometrainAICourse;
 
 public static class OptionsExtensions
 {
-    public static void AddValidatedOptions<TOptions>(this IServiceCollection services, string sectionName) where TOptions : class
+    public static void AddOptionsWithValidation<TOptions>(this IServiceCollection services, string sectionName) where TOptions : class
     {
         services.AddOptions<TOptions>()
             .BindConfiguration(sectionName)

@@ -11,8 +11,8 @@ var builder = Host.CreateApplicationBuilder();
 
 builder.Configuration.AddUserSecrets<IAssemblyMarker>();
 
-builder.Services.AddValidatedOptions<AIOptions>(AIOptions.SectionName);
-builder.Services.AddValidatedOptions<WeatherApiOptions>(WeatherApiOptions.SectionName);
+builder.Services.AddOptionsWithValidation<AIOptions>(AIOptions.SectionName);
+builder.Services.AddOptionsWithValidation<WeatherApiOptions>(WeatherApiOptions.SectionName);
 builder.Services.AddSingleton<AIConversation>();
 builder.Services.AddSingleton<ToolDefinitionsProvider>();
 builder.Services.AddHostedService<AIConversationHostedService>();
